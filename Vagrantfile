@@ -13,7 +13,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "V-precise64"
   config.vm.hostname = "V-precise64"
 
-  config.ssh.username = "vinay"
+  # config.ssh.username = "vinay"
+  # config.ssh.password = "vinay"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
