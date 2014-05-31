@@ -1,0 +1,16 @@
+# Commands
+alias ll='ls -l'
+
+alias __git_ps1="git branch 2>/dev/null | grep '*' | sed 's/* \(.*\)/(\1)/'"
+alias gls='git ls-files'
+alias gco='git checkout'
+alias gd='git diff'
+alias gdom='git diff origin/master'
+alias ga='git add'
+alias gs='git status'
+alias gc='git commit'
+alias gpo='git push origin'
+
+alias be='bundle exec'
+alias ber='bundle exec rspec -cfd'
+alias bers='bundle exec rake spec'
