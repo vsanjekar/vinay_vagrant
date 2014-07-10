@@ -5,7 +5,7 @@ class sql {
   }
 
   package {
-    ["mysql-client", "mysql-server", "libmysqlclient-dev", "redis-server", "postgresql", "postgresql-client"]: 
+    ["mysql-client", "mysql-server", "libmysqlclient-dev"/*, "redis-server", "postgresql", "postgresql-client"*/]: 
       ensure => installed, 
       require => Exec['apt-update']
   }
@@ -16,6 +16,15 @@ class sql {
     require => Package["mysql-server"],  
   }
 
+  exec { "set-mysql-password":
+    unless  => "mysql -uroot -proot",
+    path    => ["/bin", "/usr/bin"],
+    command => "mysqladmin -uroot password root",
+    require => Service["mysql"],
+
+  }
+
+/*
   service { "redis-server":
     ensure    => running,
     enable    => true,
@@ -27,6 +36,7 @@ class sql {
     enable    => true,
     require => Package["postgresql"],  
   }
+*/
   
 }
 
