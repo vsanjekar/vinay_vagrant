@@ -1,5 +1,3 @@
-import "db.pp"
-
 class core {
   
     exec { "apt-update":
@@ -35,24 +33,6 @@ class users {
         managehome => 'true',
         password => 'vinay',
     }
-}
-
-class python {
-
-    package { 
-      [ "python", "python-setuptools", "python-dev", "python-pip",
-        "python-matplotlib", "python-imaging", "python-numpy", "python-scipy",
-        "python-software-properties", "idle", "python-qt4", "python-wxgtk2.8" ]:
-        ensure => ["installed"],
-        require => Exec['apt-update']    
-    }
-
-    exec {
-      "virtualenv":
-      command => "/usr/bin/sudo pip install virtualenv",
-      require => Package["python-dev", "python-pip"]
-    }
-
 }
 
 class web {
@@ -103,6 +83,24 @@ class web {
       "Pyes":
       command => "/usr/bin/sudo pip install Pyes",
       require => Package["python-pip"]
+    }
+
+}
+
+class python {
+
+    package { 
+      [ "python", "python-setuptools", "python-dev", "python-pip",
+        "python-matplotlib", "python-imaging", "python-numpy", "python-scipy",
+        "python-software-properties", "idle", "python-qt4", "python-wxgtk2.8" ]:
+        ensure => ["installed"],
+        require => Exec['apt-update']    
+    }
+
+    exec {
+      "virtualenv":
+      command => "/usr/bin/sudo pip install virtualenv",
+      require => Package["python-dev", "python-pip"]
     }
 
 }
@@ -171,12 +169,13 @@ class flask {
 
 }
 
+include users
 include core
 include networking
-#include users
-include python
-include web
+
+#include web
+#include python
 #include flask
 
-include sql
-#include mongodb
+include core::mysql
+#include core::db
