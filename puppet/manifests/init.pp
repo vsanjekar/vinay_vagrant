@@ -169,13 +169,15 @@ class flask {
 
 }
 
-include users
 include core
 include networking
+include users
 
 #include web
 #include python
 #include flask
 
-include core::mysql
-#include core::db
+#include db::mongodb
+$mysql_password = "root123"
+include db::mysql
+include testapp::db

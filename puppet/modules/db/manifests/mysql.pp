@@ -1,4 +1,4 @@
-class core::mysql ($root_password = 'root123', $config_path = 'puppet:///modules/bt/my.cnf') {
+class db::mysql ($root_password = 'root123', $config_path = 'puppet:///modules/db/my.cnf') {
   $bin = '/usr/bin:/usr/sbin'
 
   if ! defined(Package['mysql-server']) {
@@ -12,6 +12,14 @@ class core::mysql ($root_password = 'root123', $config_path = 'puppet:///modules
       ensure => 'present',
     }
   }
+
+/*
+  service { 'mysqld':
+    enable => 'true',
+    ensure => 'running',
+    require => Package['mysql-server'],
+  }
+*/
 
   service { 'mysql':
     alias   => 'mysql::mysql',
@@ -37,20 +45,46 @@ class core::mysql ($root_password = 'root123', $config_path = 'puppet:///modules
     require => Service['mysql::mysql'],
   }
 
+}
+
+define create_mysqldb( $user, $password ) {
+  exec { "create-${name}-db":
+    unless => "/usr/bin/mysql -u${user} -p${password} ${name}",
+    command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database ${name}; grant all on ${name}.* to ${user}@localhost identified by '$password';\"",
+    require => Service["mysql"],
+  }
+}
+
+class testapp::db {
+    create_mysqldb { "testapp_db":
+        user => "myappuser",
+        password => "5uper5secret",
+    }
+}
+
+/*
+define mysql::db::create ($dbname = $title) {
+  exec { "mysql::db::create_${dbname}":
+    command => "mysql -uroot -p${mysql::root_password} -e \"CREATE DATABASE IF NOT EXISTS ${dbname}\"",
+    path    => $mysql::bin,
+    require => Exec['mysql::set_root_password'],
+  }
+}
+
+mysql::db::create { 'testdb':
+    user     => 'root',
+    password => 'root123',
+    host     => 'localhost',
+    grant    => ['SELECT', 'UPDATE', 'DELETE'],
+} 
+*/
+
 /*
   # Delete the anonymous accounts.
   mysql::user::drop { 'anonymous':
     user => '',
   }
 */
-}
-
-mysql::db { 'testdb':
-        user     => 'root',
-        password => 'root123',
-        host     => 'localhost',
-        grant    => ['SELECT', 'UPDATE', 'DELETE'],
-} 
 
 /*
 define mysql::user::drop ($user = $title, $host = '') {
@@ -71,14 +105,6 @@ define mysql::user::drop ($user = $title, $host = '') {
   }
 }
 */
-
-define mysql::db::create ($dbname = $title) {
-  exec { "mysql::db::create_${dbname}":
-    command => "mysql -uroot -p${mysql::root_password} -e \"CREATE DATABASE IF NOT EXISTS ${dbname}\"",
-    path    => $mysql::bin,
-    require => Exec['mysql::set_root_password'],
-  }
-}
 
 /*
 class mysql {

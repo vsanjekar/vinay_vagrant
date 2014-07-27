@@ -1,4 +1,4 @@
-class mongodb{
+class db::mongodb{
 
   exec { "10gen-apt-key":
     path => "/bin:/usr/bin",
