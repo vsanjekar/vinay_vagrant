@@ -57,8 +57,8 @@ define create_mysqldb( $user, $password ) {
 
 class testapp::db {
     create_mysqldb { "testapp_db":
-        user => "myappuser",
-        password => "5uper5secret",
+        user => "root",
+        password => "root123",
     }
 }
 
