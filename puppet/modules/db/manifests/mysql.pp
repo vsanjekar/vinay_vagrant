@@ -50,7 +50,7 @@ class db::mysql ($root_password = 'root123', $config_path = 'puppet:///modules/d
 define create_mysqldb( $user, $password ) {
   exec { "create-${name}-db":
     unless => "/usr/bin/mysql -u${user} -p${password} ${name}",
-    command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database ${name}; grant all on ${name}.* to ${user}@localhost identified by '$password';\"",
+    command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database ${name};\"",
     require => Service["mysql"],
   }
 }
@@ -153,43 +153,5 @@ define sql::db::create ($dbname = $title) {
     path    => $mysql::bin,
     require => Exec['mysql::set_root_password'],
   }
-}
-
-class blogpost {
-
-  class { '::mysql::server':
-    root_password    => 'strongpassword',
-    override_options => { 'mysqld' => { 'max_connections' => '1024' } }
-  }
-
-  mysql::db { 'statedb':
-    user     => 'admin',
-    password => 'secret',
-    host     => 'master.puppetlabs.vm',
-    sql        => '/tmp/states.sql',
-    require => File['/tmp/states.sql'],
-  }
-
-  file { "/tmp/states.sql":
-    ensure => present,
-    source => "puppet:///modules/blogpost/states.sql",
-  }
-
-  mysql_user { 'bob@localhost':
-    ensure                   => 'present',
-    max_connections_per_hour => '60',
-    max_queries_per_hour     => '120',
-    max_updates_per_hour     => '120',
-    max_user_connections     => '10',
-  }
-
-  mysql_grant { 'bob@localhost/statedb.states':
-    ensure     => 'present',
-    options    => ['GRANT'],
-    privileges => ['ALL'],
-    table      => 'statedbl.states',
-    user       => 'bob@localhost',
-  }
-
 }
 */

@@ -41,7 +41,7 @@ include users
 
 include vs::python
 include vs::web
-#include vs::flask
+include vs::flask
 
 #include db::mongodb
 $mysql_password = "root123"

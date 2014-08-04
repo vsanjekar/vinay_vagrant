@@ -77,12 +77,6 @@ class vs::web {
 class vs::flask {
 
   exec {
-    "fabric":
-      command => "/usr/bin/sudo pip install Fabric",
-      require => Package["python-pip"],
-  }
-
-  exec {
     "Flask":
       command => "/usr/bin/sudo pip install Flask",
       require => Package["python-pip"],
@@ -91,6 +85,12 @@ class vs::flask {
   exec {
     "flask-sqlalchemy":
       command => "/usr/bin/sudo pip install Flask-SQLAlchemy",
+      require => Package["python-pip"],
+  }
+
+  exec {
+    "fabric":
+      command => "/usr/bin/sudo pip install Fabric",
       require => Package["python-pip"],
   }
 
@@ -112,6 +112,7 @@ class vs::flask {
       require => Package["python-pip"],
   }
 
+  /*
   exec {
     "distribute":
       command => "/usr/bin/sudo pip install distribute",
@@ -135,6 +136,5 @@ class vs::flask {
       command => "/usr/bin/sudo pip install flup",
       require => Package["python-pip"],
   }
-
+  */
 }
-
