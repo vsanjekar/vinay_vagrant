@@ -1,0 +1,21 @@
+[submodule "puppet/modules/modules/nodejs"]
+	path = puppet/modules/modules/nodejs
+	url = git://github.com/willdurand/puppet-nodejs.git
+[submodule "puppet/modules/modules/stdlib"]
+	path = puppet/modules/modules/stdlib
+	url = git://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "puppet/modules/modules/wget"]
+	path = puppet/modules/modules/wget
+	url = git://github.com/maestrodev/puppet-wget.git
+[submodule "puppet/modules/wget"]
+	path = puppet/modules/wget
+	url = git://github.com/maestrodev/puppet-wget.git
+[submodule "puppet/modules/stdlib"]
+	path = puppet/modules/stdlib
+	url = git://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "puppet/modules/nodejs"]
+	path = puppet/modules/nodejs
+	url = git://github.com/willdurand/puppet-nodejs.git
+[submodule "puppet/modules/python"]
+	path = puppet/modules/python
+	url = https://github.com/stankevich/puppet-python.git

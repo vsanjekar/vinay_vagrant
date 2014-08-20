@@ -35,6 +35,14 @@ class users {
     }
 }
 
+class { 'nodejs':
+    version      => 'stable',
+    make_install => false,
+}
+package { 'express':
+    provider => npm
+}
+
 include core
 include networking
 include users
@@ -43,7 +51,7 @@ include vs::python
 include vs::web
 include vs::flask
 
-#include db::mongodb
 $mysql_password = "root123"
 include db::mysql
 include testapp::db
+#include db::mongodb
